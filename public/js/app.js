@@ -1764,11 +1764,9 @@ __webpack_require__.r(__webpack_exports__);
 
       var vm = this;
       page_url = page_url || 'api/articles';
-      fetch(page_url).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        _this.articles = res.data;
-        vm.makePagination(res.links, res.meta);
+      axios.get(page_url).then(function (response) {
+        _this.articles = response.data.data;
+        vm.makePagination(response.data.links, response.data.meta);
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -1786,11 +1784,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (confirm('Are you sure you want to delete?')) {
-        fetch("api/article/".concat(id), {
-          method: 'delete'
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
+        axios["delete"]("api/article/".concat(id)).then(function (response) {
           alert('Article removed');
 
           _this2.fetchArticles();
@@ -1804,15 +1798,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.edit === false) {
         //Add
-        fetch('api/article/', {
-          method: 'post',
-          body: JSON.stringify(this.article),
-          headers: {
-            'content-type': 'application/json'
-          }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
+        axios.post('api/article/', this.article).then(function (response) {
           _this3.article.title = '';
           _this3.article.body = '';
           alert('Article added');
@@ -1821,15 +1807,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         // update
-        fetch('api/article/', {
-          method: 'put',
-          body: JSON.stringify(this.article),
-          headers: {
-            'content-type': 'application/json'
-          }
-        }).then(function (res) {
-          return res.json();
-        }).then(function (data) {
+        axios.put('api/article/', this.article).then(function (response) {
           _this3.article.title = '';
           _this3.article.body = '';
           alert('Article updated');
@@ -1838,6 +1816,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
+    // populate the form with data
     editArticle: function editArticle(article) {
       this.edit = true;
       this.article.id = article.id;
@@ -49775,8 +49754,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Coding\PrProjects\Laravel_Projects\LaravelVueJS\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Coding\PrProjects\Laravel_Projects\LaravelVueJS\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Coding\PrProjects\Laravel_Projects\LarticlesAxios\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Coding\PrProjects\Laravel_Projects\LarticlesAxios\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

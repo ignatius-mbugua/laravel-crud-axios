@@ -66,11 +66,10 @@ export default {
     fetchArticles(page_url){
       let vm = this;
       page_url = page_url || 'api/articles'
-      fetch(page_url)
-        .then(res => res.json())
-        .then(res =>{
-          this.articles = res.data;
-          vm.makePagination(res.links, res.meta);
+      axios.get(page_url)
+        .then(response => {
+          this.articles = response.data.data;
+          vm.makePagination(response.data.links, response.data.meta);
         })
         .catch(err => console.log(err));
     },
@@ -88,9 +87,8 @@ export default {
 
     deleteArticle(id){
       if(confirm('Are you sure you want to delete?')){
-        fetch(`api/article/${id}`, {method: 'delete'})
-        .then(res => res.json())
-        .then(data => {
+        axios.delete(`api/article/${id}`)
+        .then(response => {
           alert('Article removed');
           this.fetchArticles();
         })
@@ -101,15 +99,8 @@ export default {
     addArticle(){
       if(this.edit === false){
         //Add
-        fetch('api/article/', {
-          method: 'post',
-          body: JSON.stringify(this.article),
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
+        axios.post('api/article/', this.article)
+        .then(response => {
           this.article.title = '';
           this.article.body = '';
           alert('Article added');
@@ -118,15 +109,8 @@ export default {
       }
       else{
         // update
-        fetch('api/article/', {
-          method: 'put',
-          body: JSON.stringify(this.article),
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
+        axios.put('api/article/', this.article)
+        .then(response => {
           this.article.title = '';
           this.article.body = '';
           alert('Article updated');
@@ -134,7 +118,7 @@ export default {
         })
       }
     },
-
+    // populate the form with data
     editArticle(article){
       this.edit = true;
       this.article.id = article.id;
