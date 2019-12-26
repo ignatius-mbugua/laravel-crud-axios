@@ -1,6 +1,6 @@
 # Laravel+VueJS Simple Blog Application
 
-This is a simple project which utilizes both Laravel and VueJS
+This is a simple project which utilizes both Laravel, VueJS and Axios 
 
 ## Installation
 
